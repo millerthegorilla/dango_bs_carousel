@@ -1,10 +1,10 @@
 # dango_bs_carousel
 A bootstrap carousel with asynchronous image loading using javascript webworkers.  Because images are loaded asychronously, your user can continue to interact with the site.
 
-# installation
+## installation
 to be confirmed
 
-# usage
+## usage
 add `django_bs_carousel` to your installed apps section of your settings.py.
 add `{% include 'django_bs_carousel/carousel.html' %} to the template that will display the carousel.
 In your settings.py file add the following...
@@ -79,25 +79,25 @@ If you want to use a custom template, then simply copy the following into a new 
 ```
 Note that your base.html template can have a `{% block body_js %} {% endblock body_js %}` at the end of your content, so that the javascript 'carousel.js' can be loaded properly.
 
-# options
+## options
 The following options in your settings.py file control the way the carousel works.
 
-# CAROUSEL_RANDOMIZE_IMAGES = False
+### CAROUSEL_RANDOMIZE_IMAGES = False
 This randomizes the presentation of the images
-# CAROUSEL_USE_CACHE = False
+### CAROUSEL_USE_CACHE = False
 If this is True, then the webworker will make a request to a view function on django_bs_carousel.  You will need to have sorl-thumbnail and PIL installed using pip.  The view function uses sorl-thumbnail to create two image thumbnails, one large and one small, at the sizes you set using the two options below, image_size_large and image_size_small.  These two image sizes are ideals for the presentation of images to either a desktop or a mobile.  The thumbnail operation converts it to webp, if the browser supports this, and then caches the images, so that they can be recovered later.  The webworker then loads the images asynchronously.  So, if you use the cache you can get webp images, which will offer the quality of webp to the user.  If you do not use the cache the images are loaded as they are found on the image file on your model.  You can change all the images to a particular format and size when they are uploaded.  Note that even if you set useCache to false, the browser will cache the webworker's loaded file, so as long as the user does not clear their browser cache they will get cached image loading.
-# IMAGE_SIZE_LARGE = "1024x768"
+### IMAGE_SIZE_LARGE = "1024x768"
 The large size of image if useCache is set to True.
-# IMAGE_SIZE_SMALL = "360x640"
+### IMAGE_SIZE_SMALL = "360x640"
 The small size of image if useCache is set to True.
-# NUM_IMAGES_PER_REQUEST = 5
+### NUM_IMAGES_PER_REQUEST = 5
 This is the number of images that are loaded each time.  So, if useCache is set to True, the number of requests made will be number_of_images/NUM_IMAGES_PER_REQUEST.  If useCache is set to False, then the files will be loaded in sets of files numbering NUM_IMAGES_PER_REQUEST.  In either case the webworker loads the number of images per request into an ArrayBuffer before using content transfer to move the images back to the main thread, so there is a maximum useful number.  I set it to 5 and it seems to work fine.  I have yet to test it live though.
-CAROUSEL_IMG_PAUSE = 6500
+### CAROUSEL_IMG_PAUSE = 6500
 This is the amount of time per image slide
-CAROUSEL_OFFSET = True
+### CAROUSEL_OFFSET = True
 This loads the first image immediately.  Even when it is set it is replaced with the image as loaded by the script.  It just shows the standard image a little bit quicker.
 
-DJANGO_BS_CAROUSEL_IMAGE_MODEL = "django_artisan.UserProductImage"
+### DJANGO_BS_CAROUSEL_IMAGE_MODEL = "django_artisan.UserProductImage"
 This is the image model which must have a field called 'file' which is the image file.  The image model must have an autoincrement pk integer field named 'pk'.
 The string value is the app name, and then the model from models.py or similar.
 
